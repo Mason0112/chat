@@ -20,12 +20,13 @@ public class ChatController {
 
     @MessageMapping("/chat.addUser")
     @SendTo("/topic/public")
-    public ChatMessage addUser(@Payload ChatMessage chatMessage, 
-                               SimpMessageHeaderAccessor headerAccessor) {
-        // 將chatMessage.getSender()存進Session的username,這樣可以在Websocket中辨識這個用戶 在現有的websocket中儲存用戶信息
-        // 如果要使用websocket 結合JWT要建立WebSocketHandshakeInterceptor 在握手階段驗證token並將用戶attributes.put("username", username)
-        // 這樣就不用在這做session的Put
-        headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
-        return chatMessage;
+    public ChatMessage addUser(
+        @Payload ChatMessage chatMessage, 
+        SimpMessageHeaderAccessor headerAccessor) {
+            // 將chatMessage.getSender()存進Session的username,這樣可以在Websocket中辨識這個用戶 在現有的websocket中儲存用戶信息
+            // 如果要使用websocket 結合JWT要建立WebSocketHandshakeInterceptor 在握手階段驗證token並將用戶attributes.put("username", username)
+            // 這樣就不用在這做session的Put
+            headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
+            return chatMessage;
     }
 }
